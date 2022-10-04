@@ -1,6 +1,7 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to "Download as CSV", users_path(format: :csv) %>
+
+<%= link_to "Download as CSV", users_path(format: :csv)%>
 
 <h1>Users</h1>
 <%= form_with url: import_users_path, method: :post do |form|  %>

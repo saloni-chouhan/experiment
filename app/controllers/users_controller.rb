@@ -1,11 +1,18 @@
 class UsersController < ApplicationController
 
   before_action :set_user, only: %i[ show edit update destroy ]
-    require 'csv'
+  
 
   # GET /users or /users.json
   def index
     @users = User.all
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        send_data User.to_csv(@users), filename: Date.today.to_s, content_type: "text/csv"
+      end
+    end
   end
 
   # GET /users/1 or /users/1.json
