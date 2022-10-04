@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
+
   before_action :set_user, only: %i[ show edit update destroy ]
+    require 'csv'
 
   # GET /users or /users.json
   def index
@@ -22,6 +24,8 @@ class UsersController < ApplicationController
   # POST /users or /users.json
   def create
     @user = User.new(user_params)
+
+    headers = ["Username", "Login email", "Identifier", "First name", "Last name"]
 
     respond_to do |format|
       if @user.save
@@ -57,6 +61,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def import
+    file = params[:file]
+    return redirect_to users_path, notice: "Only csv please" unless file.content_type == "text/csv"
+   
+    CsvImportUsersService.new.call(file)
+
+    redirect_to users_path, notice: "Users Imported!!!"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -65,6 +78,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :email, :mobile)
+      params.require(:user).permit(:username, :email, :identifier, :first_name, :last_name)
     end
 end
