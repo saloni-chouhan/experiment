@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv do
+      format.csv do |csv|
         send_data User.to_csv(@users), filename: Date.today.to_s, content_type: "text/csv"
       end
     end
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    headers = ["Username", "Login email", "Identifier", "First name", "Last name"]
+    # headers = ["Username", "Login email", "Identifier", "First name", "Last name"]
 
     respond_to do |format|
       if @user.save
