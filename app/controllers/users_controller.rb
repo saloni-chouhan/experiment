@@ -5,11 +5,11 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @users = User.all
+    @users = User.order(created_at: :desc)
 
     respond_to do |format|
       format.html
-      format.csv do
+      format.csv do |csv|
         send_data User.to_csv(@users), filename: Date.today.to_s, content_type: "text/csv"
       end
     end
@@ -32,15 +32,17 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    headers = ["Username", "Login email", "Identifier", "First name", "Last name"]
+    # headers = ["Username", "Login email", "Identifier", "First name", "Last name"]
 
     respond_to do |format|
       if @user.save
         format.html { redirect_to user_url(@user), notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
+        format.js
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -51,9 +53,11 @@ class UsersController < ApplicationController
       if @user.update(user_params)
         format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
+        format.js
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -65,6 +69,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url, notice: "User was successfully destroyed." }
       format.json { head :no_content }
+      format.js
     end
   end
 

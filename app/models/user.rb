@@ -10,4 +10,6 @@ class User < ApplicationRecord
  #          end
 	# 	end
 	# end
+
+	validates :username,:email,:identifier,:first_name,:last_name, presence: true
 end

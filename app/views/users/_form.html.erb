@@ -1,5 +1,7 @@
-<%= form_with(model: user) do |form| %>
-  <% if user.errors.any? %>
+<%= form_with(model: user,local: false) do |form| %>
+   <div class="modal-body">
+     
+     <% if user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
@@ -13,30 +15,33 @@
 
   <div class="field">
     <%= form.label :Username %>
-    <%= form.text_field :username %>
+    <%= form.text_field :username,class: "form-control mt-3" %>
   </div>
 
   <div class="field">
     <%= form.label :Email %>
-    <%= form.text_field :email %>
+    <%= form.text_field :email,class: "form-control mt-3" %>
   </div>
 
   <div class="field">
     <%= form.label :Identifier %>
-    <%= form.text_field :identifier %>
+    <%= form.text_field :identifier ,class: "form-control mt-3" %>
   </div>
 
     <div class="field">
     <%= form.label :FirstName %>
-    <%= form.text_field :first_name %>
+    <%= form.text_field :first_name ,class: "form-control mt-3" %>
   </div>
 
     <div class="field">
     <%= form.label :LastName %>
-    <%= form.text_field :last_name %>
+    <%= form.text_field :last_name ,class: "form-control" %>
   </div>
+      </div>
+      <div class="modal-footer">
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+         <%= form.submit class: "btn btn-primary" %>
+        <button type="button" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
+
+      </div>  
 <% end %>
